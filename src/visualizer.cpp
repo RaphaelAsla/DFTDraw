@@ -46,27 +46,27 @@ namespace viz {
         Vector2 center  = {m_width / 2.0f, m_height / 2.0f};
         Vector2 current = center;
 
-        float aspect_ratio = (m_width / static_cast<float>(m_height));
-
         Vector2 finalPosition = center;
-        for (const auto& e : epicycloids) {
-            float angle        = e.freq * m_time + e.theta;
-            float scaledRadius = e.radius * (std::min(m_width, m_height) / 2.0f);
-            finalPosition.x += scaledRadius * cos(angle) * aspect_ratio;
-            finalPosition.y += scaledRadius * sin(angle);
+
+        if (m_lock) {
+            for (const auto& e : epicycloids) {
+                float angle = e.freq * m_time + e.theta;
+                finalPosition.x += e.radius * cos(angle);
+                finalPosition.y += e.radius * sin(angle);
+            }
         }
 
         Vector2 centerOffset = (m_lock) ? center - finalPosition : Vector2{0.0f};
 
         for (const auto& e : epicycloids) {
             float   angle        = e.freq * m_time + e.theta;
-            float   scaledRadius = e.radius * (std::min(m_width, m_height) / 2.0f);
-            Vector2 next         = {current.x + scaledRadius * cos(angle) * aspect_ratio, current.y + scaledRadius * sin(angle)};
+            Vector2 next         = {current.x + e.radius * cos(angle), current.y + e.radius * sin(angle)};
+            float   circleRadius = e.radius * m_zoom;
 
             Vector2 drawCurrent = {(current.x + centerOffset.x) * m_zoom + center.x * (1 - m_zoom), (current.y + centerOffset.y) * m_zoom + center.y * (1 - m_zoom)};
             Vector2 drawNext    = {(next.x + centerOffset.x) * m_zoom + center.x * (1 - m_zoom), (next.y + centerOffset.y) * m_zoom + center.y * (1 - m_zoom)};
 
-            DrawCircleLines(static_cast<int>(drawCurrent.x), static_cast<int>(drawCurrent.y), scaledRadius * m_zoom, LIGHTGRAY);
+            DrawCircleLines(static_cast<int>(drawCurrent.x), static_cast<int>(drawCurrent.y), circleRadius, LIGHTGRAY);
             DrawLine(static_cast<int>(drawCurrent.x), static_cast<int>(drawCurrent.y), static_cast<int>(drawNext.x), static_cast<int>(drawNext.y), GRAY);
 
             current = next;

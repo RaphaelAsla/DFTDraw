@@ -38,7 +38,7 @@ namespace input {
     }
 
     std::vector<std::complex<float>> getUserPath() {
-        const int screenWidth  = 1500;
+        const int screenWidth  = 1000;
         const int screenHeight = 1000;
 
         InitWindow(screenWidth, screenHeight, "Draw your path");
@@ -60,15 +60,13 @@ namespace input {
 
             if (isDrawing) {
                 Vector2 mousePos = GetMousePosition();
-                float   x        = (mousePos.x - screenWidth / 2.0f) / (screenWidth / 2.0f);
-                float   y        = (mousePos.y - screenHeight / 2.0f) / (screenHeight / 2.0f);
-                path.emplace_back(x, y);
+                path.emplace_back(mousePos.x - screenWidth / 2.0f, mousePos.y - screenHeight / 2.0f);
             }
 
             if (!path.empty()) {
                 for (size_t i = 1; i < path.size(); i++) {
-                    Vector2 start = {(path[i - 1].real() * screenWidth / 2.0f) + screenWidth / 2.0f, (path[i - 1].imag() * screenHeight / 2.0f) + screenHeight / 2.0f};
-                    Vector2 end   = {(path[i].real() * screenWidth / 2.0f) + screenWidth / 2.0f, (path[i].imag() * screenHeight / 2.0f) + screenHeight / 2.0f};
+                    Vector2 start = {path[i - 1].real() + screenWidth / 2.0f, path[i - 1].imag() + screenHeight / 2.0f};
+                    Vector2 end   = {path[i].real() + screenWidth / 2.0f, path[i].imag() + screenHeight / 2.0f};
                     DrawLineV(start, end, RED);
                 }
             }

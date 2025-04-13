@@ -4,7 +4,7 @@
 #include "visualizer.hpp"
 
 int main() {
-    const int screenWidth  = 1500;
+    const int screenWidth  = 1000;
     const int screenHeight = 1000;
 
     while (true) {
