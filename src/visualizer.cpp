@@ -68,25 +68,20 @@ namespace viz {
             Vector2 drawCurrent = {to<float>((current.x + centerOffset.x) * m_zoom + center.x * (1 - m_zoom)), to<float>((current.y + centerOffset.y) * m_zoom + center.y * (1 - m_zoom))};
             Vector2 drawNext    = {to<float>((next.x + centerOffset.x) * m_zoom + center.x * (1 - m_zoom)), to<float>((next.y + centerOffset.y) * m_zoom + center.y * (1 - m_zoom))};
 
-            DrawCircleLines(to<int>(drawCurrent.x), to<int>(drawCurrent.y), circleRadius, {225, 225, 225, 100});
-            // Arrow
-            DrawLine(to<int>(drawCurrent.x), to<int>(drawCurrent.y), to<int>(drawNext.x), to<int>(drawNext.y), {225, 255, 255, 200});
+            DrawCircleLines(drawCurrent.x, drawCurrent.y, circleRadius, {225, 225, 225, 100});
+            // Arrow base
+            DrawLine(drawCurrent.x, drawCurrent.y, drawNext.x, drawNext.y, {225, 255, 255, 200});
             // Arrow tip
-            double dx          = drawCurrent.x - drawNext.x;
-            double dy          = drawCurrent.y - drawNext.y;
-            double ux          = dx / e.radius;
-            double uy          = dy / e.radius;
-            double perpX       = -uy;
-            double perpY       = ux;
-            double arrowLength = std::clamp(e.radius * 0.2, 0.1, 20.0);
-            double arrowWidth  = arrowLength;
-            double baseX       = drawNext.x + ux * arrowLength;
-            double baseY       = drawNext.y + uy * arrowLength;
-            double leftX       = baseX + perpX * (arrowWidth / 2);
-            double leftY       = baseY + perpY * (arrowWidth / 2);
-            double rightX      = baseX - perpX * (arrowWidth / 2);
-            double rightY      = baseY - perpY * (arrowWidth / 2);
-            DrawTriangle(Vector2{to<float>(drawNext.x), to<float>(drawNext.y)}, Vector2{to<float>(leftX), to<float>(leftY)}, Vector2{to<float>(rightX), to<float>(rightY)}, {225, 255, 255, 255});
+            Vector2 direction     = drawCurrent - drawNext;
+            Vector2 unitDirection = direction / e.radius;  // Normalize
+            Vector2 perpendicular = {-unitDirection.y, unitDirection.x};
+            double  arrowLength   = std::clamp(e.radius * 0.2, 0.1, 20.0);
+            double  arrowWidth    = arrowLength;
+            Vector2 arrowBase     = drawNext + unitDirection * arrowLength;
+            Vector2 leftWing      = arrowBase + perpendicular * (arrowWidth / 2);
+            Vector2 rightWing     = arrowBase - perpendicular * (arrowWidth / 2);
+
+            DrawTriangle(drawNext, leftWing, rightWing, {225, 255, 255, 255});
 
             current = next;
         }
