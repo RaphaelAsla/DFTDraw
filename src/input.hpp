@@ -6,7 +6,7 @@
 
 namespace input {
 
-    std::vector<std::complex<float>> readComplexNumbers(const std::string& filename);
-    std::vector<std::complex<float>> getUserPath();
+    std::vector<std::complex<double>> readComplexNumbers(const std::string& filename);
+    std::vector<std::complex<double>> getUserPath();
 
 }  // namespace input

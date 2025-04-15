@@ -5,7 +5,7 @@
 
 namespace epicycloid {
 
-    Epicycloid::Epicycloid(float amp, float phase, float freq) : radius(amp), theta(phase), freq(freq) {}
+    Epicycloid::Epicycloid(double amp, double phase, double freq) : radius(amp), theta(phase), freq(freq) {}
 
     std::vector<Epicycloid> createFromDFT(const dft::DFTResult& dftResult) {
         std::vector<Epicycloid> epicycloids;

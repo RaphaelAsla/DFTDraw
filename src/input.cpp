@@ -7,11 +7,13 @@
 
 #include "raylib.h"
 
+#define to static_cast
+
 namespace input {
 
-    std::vector<std::complex<float>> readComplexNumbers(const std::string& filename) {
-        std::ifstream                    file(filename);
-        std::vector<std::complex<float>> complexNumbers;
+    std::vector<std::complex<double>> readComplexNumbers(const std::string& filename) {
+        std::ifstream                     file(filename);
+        std::vector<std::complex<double>> complexNumbers;
 
         if (!file.is_open()) {
             std::cerr << "Could not open the file: " << filename << std::endl;
@@ -24,7 +26,7 @@ namespace input {
             line.erase(remove_if(line.begin(), line.end(), ::isspace), line.end());
 
             std::stringstream ss(line);
-            float             real, imag;
+            double            real, imag;
             char              comma;
 
             if (ss >> real >> comma >> imag && comma == ',') {
@@ -37,15 +39,14 @@ namespace input {
         return complexNumbers;
     }
 
-    std::vector<std::complex<float>> getUserPath() {
+    std::vector<std::complex<double>> getUserPath() {
         const int screenWidth  = 1000;
         const int screenHeight = 1000;
 
         InitWindow(screenWidth, screenHeight, "Draw your path");
-        SetTargetFPS(60);
 
-        std::vector<std::complex<float>> path;
-        bool                             isDrawing = false;
+        std::vector<std::complex<double>> path;
+        bool                              isDrawing = false;
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -65,9 +66,9 @@ namespace input {
 
             if (!path.empty()) {
                 for (size_t i = 1; i < path.size(); i++) {
-                    Vector2 start = {path[i - 1].real() + screenWidth / 2.0f, path[i - 1].imag() + screenHeight / 2.0f};
-                    Vector2 end   = {path[i].real() + screenWidth / 2.0f, path[i].imag() + screenHeight / 2.0f};
-                    DrawLineV(start, end, RED);
+                    Vector2 start = {to<float>(path[i - 1].real() + screenWidth / 2.0f), to<float>(path[i - 1].imag() + screenHeight / 2.0f)};
+                    Vector2 end   = {to<float>(path[i].real() + screenWidth / 2.0f), to<float>(path[i].imag() + screenHeight / 2.0f)};
+                    DrawLineEx(start, end, 2.0, RED);
                 }
             }
 

@@ -18,11 +18,12 @@ namespace viz {
       private:
         void drawFrame(const std::vector<epicycloid::Epicycloid>& epicycloids);
 
-        int                  m_width;
-        int                  m_height;
-        float                m_time = 0.0f;
-        float                m_zoom = 1.0f;
-        bool                 m_lock = false;
+        int    m_width;
+        int    m_height;
+        double m_time = 0.0f;
+        double m_zoom = 1.0f;
+        bool   m_lock = false;
+
         std::vector<Vector2> m_path;
     };
 

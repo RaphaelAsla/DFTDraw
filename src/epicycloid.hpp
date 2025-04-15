@@ -7,11 +7,11 @@
 namespace epicycloid {
 
     struct Epicycloid {
-        Epicycloid(float amp, float phase, float freq);
+        Epicycloid(double amp, double phase, double freq);
 
-        float radius;
-        float theta;
-        float freq;
+        double radius;
+        double theta;
+        double freq;
     };
 
     std::vector<Epicycloid> createFromDFT(const dft::DFTResult& dftResult);

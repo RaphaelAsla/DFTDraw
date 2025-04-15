@@ -39,4 +39,4 @@ target_link_libraries(dft PRIVATE
     X11
 )
 
-target_compile_options(dft PRIVATE -Wall)
+target_compile_options(dft PRIVATE -Wall -O3)
