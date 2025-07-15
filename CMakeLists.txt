@@ -19,10 +19,7 @@ add_custom_target(run
 
 add_executable(dft 
     ${SOURCE_DIR}/main.cpp
-    ${SOURCE_DIR}/dft.cpp
-    ${SOURCE_DIR}/epicycloid.cpp
-    ${SOURCE_DIR}/input.cpp
-    ${SOURCE_DIR}/visualizer.cpp
+    ${SOURCE_DIR}/dft_draw.cpp
 )
 
 target_include_directories(dft PRIVATE
